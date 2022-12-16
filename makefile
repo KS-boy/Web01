@@ -1,20 +1,20 @@
-src=$(wildcard *.cpp)
-obj=$(patsubst %.cpp,%.o,$(src))
+CXX=g++
+TARGET=webServer_Muduo
+SRC=$(wildcard *.cpp)
+OBJ=$(patsubst %.cpp,%.o,$(SRC))
+
+CXXFLAGS= -c -g 
+# -Wall
+#  -lmuduo_base -lmuduo_net
+
+$(TARGET):$(OBJ)
+	$(CXX) -o $@ $^    -lpthread 
 
 
-ALL:a.out
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) $< -o $@
 
-a.out:$(obj)
-	g++  $^ -o $@
-
-
-
-%.o:%.cpp
-	g++ -c $< -o $@
-
+.PHONY:clean
 
 clean:
-	-rm -rf $(obj) a.out
-
-
-.PHONY: clean ALL
+	rm -f *.o $(TARGET)
